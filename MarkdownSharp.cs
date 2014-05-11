@@ -1,8 +1,3 @@
-using System.Linq;
-using ServiceStack;
-
-namespace BlogGen
-{
   ﻿/*
  * MarkdownSharp
  * -------------
@@ -1862,4 +1857,3 @@ software, even if advised of the possibility of such damage.
 
         }
     }
-}
