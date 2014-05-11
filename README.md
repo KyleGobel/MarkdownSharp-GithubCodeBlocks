@@ -42,4 +42,4 @@ would transform to
 <pre><code class='language-mylanguage'>
 ```
 
-
+If anyone wants to add any of the other Github flavored stuff, feel free to pull request.  Or, fix my mediocre implementation of the the Github Flavored Codeblocks
