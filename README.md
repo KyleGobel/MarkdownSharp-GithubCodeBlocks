@@ -34,6 +34,12 @@ Then you can use a library like [HighlightJS](http://highlightjs.org/) to sytnax
 
 Whatever is after the 3 ticks will be put in the class name
 
-so <pre lang="no-highlight"><code>```mylanguage</code></pre> will become ```<pre><code class='language-mylanguage'>```
+so 
+<pre lang="no-highlight"><code>```mylanguage
+</code></pre> 
+would transform to 
+```html
+<pre><code class='language-mylanguage'>
+```
 
 
