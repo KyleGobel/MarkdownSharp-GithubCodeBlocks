@@ -1342,7 +1342,7 @@ software, even if advised of the possibility of such damage.
 
             private static Regex _codeSpan = new Regex(@"
                     (?<!\\)   # Character before opening ` can't be a backslash
-                    (``)      # $1 = Opening run of `
+                    (\`)      # $1 = Opening run of `
                     (.+?)     # $2 = The code block
                     (?<!`)
                     \1
