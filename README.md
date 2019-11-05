@@ -1,5 +1,7 @@
 MarkdownSharp - With Github style code blocks
 =========================================
+新建2.0.5分支，修改为兼容.net版本2.0.5的语法。
+=========================================
 
 The original MarkdownSharp can be found on google code here [https://code.google.com/p/markdownsharp/](https://code.google.com/p/markdownsharp/)
 
@@ -34,10 +36,10 @@ Then you can use a library like [HighlightJS](http://highlightjs.org/) to sytnax
 
 Whatever is after the 3 ticks will be put in the class name
 
-so 
+so
 <pre lang="no-highlight"><code>```mylanguage
-</code></pre> 
-would transform to 
+</code></pre>
+would transform to
 ```html
 <pre><code class='language-mylanguage'>
 ```
