@@ -2,25 +2,25 @@
  * MarkdownSharp
  * -------------
  * a C# Markdown processor
- * 
+ *
  * Markdown is a text-to-HTML conversion tool for web writers
  * Copyright (c) 2004 John Gruber
  * http://daringfireball.net/projects/markdown/
- * 
+ *
  * Markdown.NET
  * Copyright (c) 2004-2009 Milan Negovan
  * http://www.aspnetresources.com
  * http://aspnetresources.com/blog/markdown_announced.aspx
- * 
+ *
  * MarkdownSharp
  * Copyright (c) 2009-2011 Jeff Atwood
  * http://stackoverflow.com
  * http://www.codinghorror.com/blog/
  * http://code.google.com/p/markdownsharp/
- * 
+ *
  * History: Milan ported the Markdown processor to C#. He granted license to me so I can open source it
  * and let the community contribute to and improve MarkdownSharp.
- * 
+ *
  */
 
     #region Copyright and license
@@ -30,7 +30,7 @@
 Copyright (c) 2009 - 2010 Jeff Atwood
 
 http://www.opensource.org/licenses/mit-license.php
-  
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -50,7 +50,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 Copyright (c) 2003-2004 John Gruber
-<http://daringfireball.net/>   
+<http://daringfireball.net/>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -95,40 +95,46 @@ software, even if advised of the possibility of such damage.
         public class MarkdownOptions
         {
             /// <summary>
-            /// when true, (most) bare plain URLs are auto-hyperlinked  
+            /// when true, (most) bare plain URLs are auto-hyperlinked
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
-            public bool AutoHyperlink { get; set; }
+            private bool _AutoHyperlink;
+            public bool AutoHyperlink { get{return this._AutoHyperlink;} set{this._AutoHyperlink = value;} }
             /// <summary>
-            /// when true, RETURN becomes a literal newline  
+            /// when true, RETURN becomes a literal newline
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
-            public bool AutoNewlines { get; set; }
+            private bool _AutoNewlines;
+            public bool AutoNewlines { get{return this._AutoNewlines;} set{this._AutoNewlines = value;} }
             /// <summary>
             /// use ">" for HTML output, or " />" for XHTML output
             /// </summary>
-            public string EmptyElementSuffix { get; set; }
+            private string _EmptyElementSuffix;
+            public string EmptyElementSuffix { get{return this._EmptyElementSuffix;} set{this._EmptyElementSuffix = value;} }
             /// <summary>
-            /// when true, problematic URL characters like [, ], (, and so forth will be encoded 
+            /// when true, problematic URL characters like [, ], (, and so forth will be encoded
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
-            public bool EncodeProblemUrlCharacters { get; set; }
+            private bool _EncodeProblemUrlCharacters;
+            public bool EncodeProblemUrlCharacters { get{return this._EncodeProblemUrlCharacters;} set{this._EncodeProblemUrlCharacters = value;} }
             /// <summary>
-            /// when false, email addresses will never be auto-linked  
+            /// when false, email addresses will never be auto-linked
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
-            public bool LinkEmails { get; set; }
+            private bool _LinkEmails;
+            public bool LinkEmails { get{return this._LinkEmails;} set{this._LinkEmails = value;} }
             /// <summary>
-            /// when true, bold and italic require non-word characters on either side  
+            /// when true, bold and italic require non-word characters on either side
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
-            public bool StrictBoldItalic { get; set; }
+            private bool _StrictBoldItalic;
+            public bool StrictBoldItalic { get{return this._StrictBoldItalic;} set{this._StrictBoldItalic = value;} }
         }
 
 
         /// <summary>
-        /// Markdown is a text-to-HTML conversion tool for web writers. 
-        /// Markdown allows you to write using an easy-to-read, easy-to-write plain text format, 
+        /// Markdown is a text-to-HTML conversion tool for web writers.
+        /// Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
         /// then convert it to structurally valid XHTML (or HTML).
         /// </summary>
         public class Markdown
@@ -148,20 +154,20 @@ software, even if advised of the possibility of such damage.
             /// <summary>
             /// Create a new Markdown instance and optionally load options from a configuration
             /// file. There they should be stored in the appSettings section, available options are:
-            /// 
+            ///
             ///     Markdown.StrictBoldItalic (true/false)
             ///     Markdown.EmptyElementSuffix (">" or " />" without the quotes)
             ///     Markdown.LinkEmails (true/false)
             ///     Markdown.AutoNewLines (true/false)
             ///     Markdown.AutoHyperlink (true/false)
-            ///     Markdown.EncodeProblemUrlCharacters (true/false) 
-            ///     
+            ///     Markdown.EncodeProblemUrlCharacters (true/false)
+            ///
             /// </summary>
             public Markdown(bool loadOptionsFromConfigFile)
             {
                 if (!loadOptionsFromConfigFile) return;
 
-                var settings = ConfigurationManager.AppSettings;
+                System.Collections.Specialized.NameValueCollection settings = ConfigurationManager.AppSettings;
                 foreach (string key in settings.Keys)
                 {
                     switch (key)
@@ -213,7 +219,7 @@ software, even if advised of the possibility of such damage.
             private string _emptyElementSuffix = " />";
 
             /// <summary>
-            /// when false, email addresses will never be auto-linked  
+            /// when false, email addresses will never be auto-linked
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
             public bool LinkEmails
@@ -224,7 +230,7 @@ software, even if advised of the possibility of such damage.
             private bool _linkEmails = true;
 
             /// <summary>
-            /// when true, bold and italic require non-word characters on either side  
+            /// when true, bold and italic require non-word characters on either side
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
             public bool StrictBoldItalic
@@ -235,7 +241,7 @@ software, even if advised of the possibility of such damage.
             private bool _strictBoldItalic = false;
 
             /// <summary>
-            /// when true, RETURN becomes a literal newline  
+            /// when true, RETURN becomes a literal newline
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
             public bool AutoNewLines
@@ -246,7 +252,7 @@ software, even if advised of the possibility of such damage.
             private bool _autoNewlines = false;
 
             /// <summary>
-            /// when true, (most) bare plain URLs are auto-hyperlinked  
+            /// when true, (most) bare plain URLs are auto-hyperlinked
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
             public bool AutoHyperlink
@@ -257,7 +263,7 @@ software, even if advised of the possibility of such damage.
             private bool _autoHyperlink = false;
 
             /// <summary>
-            /// when true, problematic URL characters like [, ], (, and so forth will be encoded 
+            /// when true, problematic URL characters like [, ], (, and so forth will be encoded
             /// WARNING: this is a significant deviation from the markdown spec
             /// </summary>
             public bool EncodeProblemUrlCharacters
@@ -288,8 +294,8 @@ software, even if advised of the possibility of such damage.
             private const int _nestDepth = 6;
 
             /// <summary>
-            /// Tabs are automatically converted to spaces as part of the transform  
-            /// this constant determines how "wide" those tabs become in spaces  
+            /// Tabs are automatically converted to spaces as part of the transform
+            /// this constant determines how "wide" those tabs become in spaces
             /// </summary>
             private const int _tabWidth = 4;
 
@@ -323,7 +329,7 @@ software, even if advised of the possibility of such damage.
                 foreach (char c in @"\`*_{}[]()>#+-.!/")
                 {
                     string key = c.ToString();
-                    string hash = GetHashKey(key, isHtmlBlock: false);
+                    string hash = GetHashKey(key, false);
                     _escapeTable.Add(key, hash);
                     _invertedEscapeTable.Add(hash, key);
                     _backslashEscapeTable.Add(@"\" + key, hash);
@@ -334,7 +340,7 @@ software, even if advised of the possibility of such damage.
             }
 
             /// <summary>
-            /// current version of MarkdownSharp;  
+            /// current version of MarkdownSharp;
             /// see http://code.google.com/p/markdownsharp/ for the latest code or to contribute
             /// </summary>
             public string Version
@@ -343,7 +349,7 @@ software, even if advised of the possibility of such damage.
             }
 
             /// <summary>
-            /// Transforms the provided Markdown-formatted text to HTML;  
+            /// Transforms the provided Markdown-formatted text to HTML;
             /// see http://en.wikipedia.org/wiki/Markdown
             /// </summary>
             /// <remarks>
@@ -370,11 +376,11 @@ software, even if advised of the possibility of such damage.
                 return text + "\n";
             }
 
-
+            private string RunBlockGamut(string text){return RunBlockGamut(text, true);}
             /// <summary>
             /// Perform transformations that form block-level tags like paragraphs, headers, and list items.
             /// </summary>
-            private string RunBlockGamut(string text, bool unhash = true)
+            private string RunBlockGamut(string text, bool unhash)
             {
                 text = DoHeaders(text);
                 text = DoHorizontalRules(text);
@@ -389,7 +395,7 @@ software, even if advised of the possibility of such damage.
                 // <p> tags around block-level tags.
                 text = HashHTMLBlocks(text);
 
-                text = FormParagraphs(text, unhash: unhash);
+                text = FormParagraphs(text, unhash);
 
                 return text;
             }
@@ -427,11 +433,12 @@ software, even if advised of the possibility of such damage.
 
             private static Regex _htmlBlockHash = new Regex("\x1AH\\d+H", RegexOptions.Compiled);
 
+            private string FormParagraphs(string text){return FormParagraphs(text, true);}
             /// <summary>
-            /// splits on two or more newlines, to form "paragraphs";    
+            /// splits on two or more newlines, to form "paragraphs";
             /// each paragraph is then unhashed (if it is a hash and unhashing isn't turned off) or wrapped in HTML p tag
             /// </summary>
-            private string FormParagraphs(string text, bool unhash = true)
+            private string FormParagraphs(string text, bool unhash)
             {
                 // split on two or more newlines
                 string[] grafs = _newlinesMultiple.Split(_newlinesLeadingTrailing.Replace(text, ""));
@@ -463,7 +470,7 @@ software, even if advised of the possibility of such damage.
                             while (keepGoing && sanityCheck > 0)
                             {
                                 keepGoing = false;
-                                grafs[i] = _htmlBlockHash.Replace(grafs[i], match =>
+                                grafs[i] = _htmlBlockHash.Replace(grafs[i], delegate(Match match)
                                 {
                                     keepGoing = true;
                                     return _htmlBlocks[match.Value];
@@ -509,7 +516,7 @@ software, even if advised of the possibility of such damage.
             private static string _nestedBracketsPattern;
 
             /// <summary>
-            /// Reusable pattern to match balanced [brackets]. See Friedl's 
+            /// Reusable pattern to match balanced [brackets]. See Friedl's
             /// "Mastering Regular Expressions", 2nd Ed., pp. 328-331.
             /// </summary>
             private static string GetNestedBracketsPattern()
@@ -533,7 +540,7 @@ software, even if advised of the possibility of such damage.
             private static string _nestedParensPattern;
 
             /// <summary>
-            /// Reusable pattern to match balanced (parens). See Friedl's 
+            /// Reusable pattern to match balanced (parens). See Friedl's
             /// "Mastering Regular Expressions", 2nd Ed., pp. 328-331.
             /// </summary>
             private static string GetNestedParensPattern()
@@ -612,8 +619,8 @@ software, even if advised of the possibility of such damage.
                 // hard-coded:
                 //
                 // *  List "a" is made of tags which can be both inline or block-level.
-                //    These will be treated block-level when the start tag is alone on 
-                //    its line, otherwise they're not matched here and will be taken as 
+                //    These will be treated block-level when the start tag is alone on
+                //    its line, otherwise they're not matched here and will be taken as
                 //    inline later.
                 // *  List "b" is made of tags which are always block-level;
                 //
@@ -633,7 +640,7 @@ software, even if advised of the possibility of such damage.
               |
                 '[^']*'﻿                  # text inside single quotes (tolerate >)
               )*
-            )?﻿  
+            )?﻿
             ";
 
                 string content = RepeatString(@"
@@ -650,7 +657,7 @@ software, even if advised of the possibility of such damage.
                 RepeatString(@"
                       </\2\s*>﻿          # closing nested tag
                   )
-                  |﻿  ﻿  ﻿  ﻿  
+                  |﻿  ﻿  ﻿  ﻿
                   <(?!/\2\s*>           # other tags with a different name
                   )
                 )*", _nestDepth);
@@ -677,9 +684,9 @@ software, even if advised of the possibility of such damage.
                   )
                   (             # save in $1
 
-                    # Match from `\n<tag>` to `</tag>\n`, handling nested tags 
+                    # Match from `\n<tag>` to `</tag>\n`, handling nested tags
                     # in between.
-                      
+
                         <($block_tags_b_re)   # start tag = $2
                         $attr>                # attributes followed by > and \n
                         $content              # content, support nesting
@@ -695,19 +702,19 @@ software, even if advised of the possibility of such damage.
                         </\3>                 # the matching end tag
                         [ ]*                  # trailing spaces
                         (?=\n+|\Z)            # followed by a newline or end of document
-                      
-                  | # Special case just for <hr />. It was easier to make a special 
+
+                  | # Special case just for <hr />. It was easier to make a special
                     # case than to make the other regex more complicated.
-                  
+
                         [ ]{0,$less_than_tab}
                         <hr
                         $attr                 # attributes
                         /?>                   # the matching end tag
                         [ ]*
                         (?=\n{2,}|\Z)         # followed by a blank line or end of document
-                  
+
                   | # Special case for standalone HTML comments:
-                  
+
                       (?<=\n\n|\A)            # preceded by a blank line or start of document
                       [ ]{0,$less_than_tab}
                       (?s:
@@ -715,9 +722,9 @@ software, even if advised of the possibility of such damage.
                       )
                       [ ]*
                       (?=\n{2,}|\Z)            # followed by a blank line or end of document
-                  
+
                   | # PHP and ASP-style processor instructions (<? and <%)
-                  
+
                       [ ]{0,$less_than_tab}
                       (?s:
                         <([?%])                # $4
@@ -726,7 +733,7 @@ software, even if advised of the possibility of such damage.
                       )
                       [ ]*
                       (?=\n{2,}|\Z)            # followed by a blank line or end of document
-                      
+
                   )
             )";
 
@@ -751,7 +758,7 @@ software, even if advised of the possibility of such damage.
             private string HtmlEvaluator(Match match)
             {
                 string text = match.Groups[1].Value;
-                string key = GetHashKey(text, isHtmlBlock: true);
+                string key = GetHashKey(text, true);
                 _htmlBlocks[key] = text;
 
                 return string.Concat("\n\n", key, "\n\n");
@@ -759,30 +766,30 @@ software, even if advised of the possibility of such damage.
 
             private static string GetHashKey(string s, bool isHtmlBlock)
             {
-                var delim = isHtmlBlock ? 'H' : 'E';
+                char delim = isHtmlBlock ? 'H' : 'E';
                 return "\x1A" + delim + Math.Abs(s.GetHashCode()).ToString() + delim;
             }
 
             private static Regex _htmlTokens = new Regex(@"
             (<!--(?:|(?:[^>-]|-[^>])(?:[^-]|-[^-])*)-->)|        # match <!-- foo -->
             (<\?.*?\?>)|                 # match <?foo?> " +
-                RepeatString(@" 
+                RepeatString(@"
             (<[A-Za-z\/!$](?:[^<>]|", _nestDepth) + RepeatString(@")*>)", _nestDepth) +
                                            " # match <tag> and </tag>",
                 RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
             /// <summary>
-            /// returns an array of HTML tokens comprising the input string. Each token is 
-            /// either a tag (possibly with nested, tags contained therein, such 
-            /// as &lt;a href="&lt;MTFoo&gt;"&gt;, or a run of text between tags. Each element of the 
-            /// array is a two-element array; the first is either 'tag' or 'text'; the second is 
+            /// returns an array of HTML tokens comprising the input string. Each token is
+            /// either a tag (possibly with nested, tags contained therein, such
+            /// as &lt;a href="&lt;MTFoo&gt;"&gt;, or a run of text between tags. Each element of the
+            /// array is a two-element array; the first is either 'tag' or 'text'; the second is
             /// the actual value.
             /// </summary>
             private List<Token> TokenizeHTML(string text)
             {
                 int pos = 0;
                 int tagStart = 0;
-                var tokens = new List<Token>();
+                List<Token> tokens = new List<Token>();
 
                 // this regex is derived from the _tokenize() subroutine in Brad Choate's MTRegex plugin.
                 // http://www.bradchoate.com/past/mtregex.php
@@ -848,9 +855,9 @@ software, even if advised of the possibility of such damage.
             /// Turn Markdown link shortcuts into HTML anchor tags
             /// </summary>
             /// <remarks>
-            /// [link text](url "title") 
-            /// [link text][id] 
-            /// [id] 
+            /// [link text](url "title")
+            /// [link text][id]
+            /// [id]
             /// </remarks>
             private string DoAnchors(string text)
             {
@@ -949,7 +956,7 @@ software, even if advised of the possibility of such damage.
                 url = EncodeProblemUrlChars(url);
                 url = EscapeBoldItalic(url);
                 if (url.StartsWith("<") && url.EndsWith(">"))
-                    url = url.Substring(1, url.Length - 2); // remove <>'s surrounding URL, if present            
+                    url = url.Substring(1, url.Length - 2); // remove <>'s surrounding URL, if present
 
                 result = string.Format("<a href=\"{0}\"", url);
 
@@ -1000,7 +1007,7 @@ software, even if advised of the possibility of such damage.
                       RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
             /// <summary>
-            /// Turn Markdown image shortcuts into HTML img tags. 
+            /// Turn Markdown image shortcuts into HTML img tags.
             /// </summary>
             /// <remarks>
             /// ![alt text][id]
@@ -1024,7 +1031,7 @@ software, even if advised of the possibility of such damage.
             private string EscapeImageAltText(string s)
             {
                 s = EscapeBoldItalic(s);
-                s = Regex.Replace(s, @"[\[\]()]", m => _escapeTable[m.ToString()]);
+                s = Regex.Replace(s, @"[\[\]()]", delegate(Match m) {return _escapeTable[m.ToString()];});
                 return s;
             }
 
@@ -1072,7 +1079,7 @@ software, even if advised of the possibility of such damage.
                 altText = EscapeImageAltText(AttributeEncode(altText));
                 url = EncodeProblemUrlChars(url);
                 url = EscapeBoldItalic(url);
-                var result = string.Format("<img src=\"{0}\" alt=\"{1}\"", url, altText);
+                string result = string.Format("<img src=\"{0}\" alt=\"{1}\"", url, altText);
                 if (!String.IsNullOrEmpty(title))
                 {
                     title = AttributeEncode(EscapeBoldItalic(title));
@@ -1104,17 +1111,17 @@ software, even if advised of the possibility of such damage.
             /// Turn Markdown headers into HTML header tags
             /// </summary>
             /// <remarks>
-            /// Header 1  
-            /// ========  
-            /// 
-            /// Header 2  
-            /// --------  
-            /// 
-            /// # Header 1  
-            /// ## Header 2  
-            /// ## Header 2 with closing hashes ##  
-            /// ...  
-            /// ###### Header 6  
+            /// Header 1
+            /// ========
+            ///
+            /// Header 2
+            /// --------
+            ///
+            /// # Header 1
+            /// ## Header 2
+            /// ## Header 2 with closing hashes ##
+            /// ...
+            /// ###### Header 6
             /// </remarks>
             private string DoHeaders(string text)
             {
@@ -1153,8 +1160,8 @@ software, even if advised of the possibility of such damage.
             /// Turn Markdown horizontal rules into HTML hr tags
             /// </summary>
             /// <remarks>
-            /// ***  
-            /// * * *  
+            /// ***
+            /// * * *
             /// ---
             /// - - -
             /// </remarks>
@@ -1189,10 +1196,11 @@ software, even if advised of the possibility of such damage.
             private static Regex _listTopLevel = new Regex(@"(?:(?<=\n\n)|\A\n?)" + _wholeList,
                 RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
+            private string DoLists(string text){return DoLists(text, false);}
             /// <summary>
             /// Turn Markdown lists into HTML ul and ol and li tags
             /// </summary>
-            private string DoLists(string text, bool isInsideParagraphlessListItem = false)
+            private string DoLists(string text, bool isInsideParagraphlessListItem)
             {
                 // We use a different prefix before nested lists than top-level lists.
                 // See extended comment in _ProcessListItems().
@@ -1204,9 +1212,10 @@ software, even if advised of the possibility of such damage.
                 return text;
             }
 
-            private MatchEvaluator GetListEvaluator(bool isInsideParagraphlessListItem = false)
+            private MatchEvaluator GetListEvaluator(){return GetListEvaluator(false);}
+            private MatchEvaluator GetListEvaluator(bool isInsideParagraphlessListItem)
             {
-                return new MatchEvaluator(match =>
+                return new MatchEvaluator(delegate(Match match)
                 {
                     string list = match.Groups[1].Value;
                     string listType = Regex.IsMatch(match.Groups[3].Value, _markerUL) ? "ul" : "ol";
@@ -1219,11 +1228,12 @@ software, even if advised of the possibility of such damage.
                 });
             }
 
+            private string ProcessListItems(string list, string marker){return ProcessListItems(list, marker, false);}
             /// <summary>
             /// Process the contents of a single ordered or unordered list, splitting it
             /// into individual list items.
             /// </summary>
-            private string ProcessListItems(string list, string marker, bool isInsideParagraphlessListItem = false)
+            private string ProcessListItems(string list, string marker, bool isInsideParagraphlessListItem)
             {
                 // The listLevel global keeps track of when we're inside a list.
                 // Each time we enter a list, we increment it; when we leave a list,
@@ -1255,13 +1265,13 @@ software, even if advised of the possibility of such damage.
                   @"(^[ ]*)                    # leading whitespace = $1
                 ({0}) [ ]+                 # list marker = $2
                 ((?s:.+?)                  # list item text = $3
-                (\n+))      
+                (\n+))
                 (?= (\z | \1 ({0}) [ ]+))", marker);
 
                 bool lastItemHadADoubleNewline = false;
 
                 // has to be a closure, so subsequent invocations can share the bool
-                MatchEvaluator ListItemEvaluator = (Match match) =>
+                MatchEvaluator ListItemEvaluator = delegate(Match match)
                 {
                     string item = match.Groups[3].Value;
 
@@ -1270,11 +1280,11 @@ software, even if advised of the possibility of such damage.
 
                     if (containsDoubleNewline || lastItemHadADoubleNewline)
                         // we could correct any bad indentation here..
-                        item = RunBlockGamut(Outdent(item) + "\n", unhash: false);
+                        item = RunBlockGamut(Outdent(item) + "\n", false);
                     else
                     {
                         // recursion for sub-lists
-                        item = DoLists(Outdent(item), isInsideParagraphlessListItem: true);
+                        item = DoLists(Outdent(item), true);
                         item = item.TrimEnd('\n');
                         if (!isInsideParagraphlessListItem) // only the outer-most item should run this, otherwise it's run multiple times for the inner ones
                             item = RunSpanGamut(item);
@@ -1372,7 +1382,7 @@ software, even if advised of the possibility of such damage.
                 //
                 //        Turns to:
                 //
-                //          ... type <code>`bar`</code> ...         
+                //          ... type <code>`bar`</code> ...
                 //
 
                 return _codeSpan.Replace(text, new MatchEvaluator(CodeSpanEvaluator));
@@ -1464,7 +1474,7 @@ software, even if advised of the possibility of such damage.
                 bq = Regex.Replace(bq, @"(\s*<pre>.+?</pre>)", new MatchEvaluator(BlockQuoteEvaluator2), RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline);
 
                 bq = string.Format("<blockquote>\n{0}\n</blockquote>", bq);
-                string key = GetHashKey(bq, isHtmlBlock: true);
+                string key = GetHashKey(bq, true);
                 _htmlBlocks[key] = bq;
 
                 return "\n\n" + key + "\n\n";
@@ -1493,11 +1503,11 @@ software, even if advised of the possibility of such damage.
                 if (match.Groups[1].Success)
                     return match.Value;
 
-                var protocol = match.Groups[2].Value;
-                var link = match.Groups[3].Value;
+                string protocol = match.Groups[2].Value;
+                string link = match.Groups[3].Value;
                 if (!link.EndsWith(")"))
                     return "<" + protocol + link + ">";
-                var level = 0;
+                int level = 0;
                 foreach (Match c in Regex.Matches(link, "[()]"))
                 {
                     if (c.Value == "(")
@@ -1512,14 +1522,14 @@ software, even if advised of the possibility of such damage.
                         level--;
                     }
                 }
-                var tail = "";
+                string tail = "";
                 if (level < 0)
                 {
-                    link = Regex.Replace(link, @"\){1," + (-level) + "}$", m => { tail = m.Value; return ""; });
+                    link = Regex.Replace(link, @"\){1," + (-level) + "}$", delegate(Match m) { tail = m.Value; return ""; });
                 }
                 if (tail.Length > 0)
                 {
-                    var lastChar = link[link.Length - 1];
+                    char lastChar = link[link.Length - 1];
                     if (!_endCharRegex.IsMatch(lastChar.ToString()))
                     {
                         tail = lastChar + tail;
@@ -1593,7 +1603,7 @@ software, even if advised of the possibility of such damage.
                 //
                 email = "mailto:" + email;
 
-                // leave ':' alone (to spot mailto: later) 
+                // leave ':' alone (to spot mailto: later)
                 email = EncodeEmailAddress(email);
 
                 email = string.Format("<a href=\"{0}\">{0}</a>", email);
@@ -1619,14 +1629,14 @@ software, even if advised of the possibility of such damage.
 
 
             /// <summary>
-            /// encodes email address randomly  
-            /// roughly 10% raw, 45% hex, 45% dec 
+            /// encodes email address randomly
+            /// roughly 10% raw, 45% hex, 45% dec
             /// note that @ is always encoded and : never is
             /// </summary>
             private string EncodeEmailAddress(string addr)
             {
-                var sb = new StringBuilder(addr.Length * 5);
-                var rand = new Random();
+                StringBuilder sb = new StringBuilder(addr.Length * 5);
+                Random rand = new Random();
                 int r;
                 foreach (char c in addr)
                 {
@@ -1730,13 +1740,13 @@ software, even if advised of the possibility of such damage.
             private static readonly char[] _problemUrlChars = @"""'*()[]$:_".ToCharArray();
 
             /// <summary>
-            /// hex-encodes some unusual "problem" chars in URLs to avoid URL detection problems 
+            /// hex-encodes some unusual "problem" chars in URLs to avoid URL detection problems
             /// </summary>
             private string EncodeProblemUrlChars(string url)
             {
                 if (!_encodeProblemUrlCharacters) return url;
 
-                var sb = new StringBuilder(url.Length);
+                StringBuilder sb = new StringBuilder(url.Length);
                 bool encode;
                 char c;
 
@@ -1758,20 +1768,20 @@ software, even if advised of the possibility of such damage.
 
 
             /// <summary>
-            /// Within tags -- meaning between &lt; and &gt; -- encode [\ ` * _] so they 
-            /// don't conflict with their use in Markdown for code, italics and strong. 
-            /// We're replacing each such character with its corresponding hash 
-            /// value; this is likely overkill, but it should prevent us from colliding 
+            /// Within tags -- meaning between &lt; and &gt; -- encode [\ ` * _] so they
+            /// don't conflict with their use in Markdown for code, italics and strong.
+            /// We're replacing each such character with its corresponding hash
+            /// value; this is likely overkill, but it should prevent us from colliding
             /// with the escape values by accident.
             /// </summary>
             private string EscapeSpecialCharsWithinTagAttributes(string text)
             {
-                var tokens = TokenizeHTML(text);
+                List<Token> tokens = TokenizeHTML(text);
 
                 // now, rebuild text from the tokens
-                var sb = new StringBuilder(text.Length);
+                StringBuilder sb = new StringBuilder(text.Length);
 
-                foreach (var token in tokens)
+                foreach (Token token in tokens)
                 {
                     string value = token.Value;
 
@@ -1793,15 +1803,15 @@ software, even if advised of the possibility of such damage.
             }
 
             /// <summary>
-            /// convert all tabs to _tabWidth spaces; 
-            /// standardizes line endings from DOS (CR LF) or Mac (CR) to UNIX (LF); 
-            /// makes sure text ends with a couple of newlines; 
+            /// convert all tabs to _tabWidth spaces;
+            /// standardizes line endings from DOS (CR LF) or Mac (CR) to UNIX (LF);
+            /// makes sure text ends with a couple of newlines;
             /// removes any blank lines (only spaces) in the text
             /// </summary>
             private string Normalize(string text)
             {
-                var output = new StringBuilder(text.Length);
-                var line = new StringBuilder();
+                StringBuilder output = new StringBuilder(text.Length);
+                StringBuilder line = new StringBuilder();
                 bool valid = false;
 
                 for (int i = 0; i < text.Length; i++)
@@ -1849,7 +1859,7 @@ software, even if advised of the possibility of such damage.
             /// </summary>
             private static string RepeatString(string text, int count)
             {
-                var sb = new StringBuilder(text.Length * count);
+                StringBuilder sb = new StringBuilder(text.Length * count);
                 for (int i = 0; i < count; i++)
                     sb.Append(text);
                 return sb.ToString();
